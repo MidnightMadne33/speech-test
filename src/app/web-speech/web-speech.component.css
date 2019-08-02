@@ -1,0 +1,11 @@
+/* .form {
+  max-width: 40%;
+} */
+
+.input-group-prepend {
+  cursor: pointer;
+}
+
+.input-group-text-listening {
+  background-color: rgb(162, 243, 162);
+}
