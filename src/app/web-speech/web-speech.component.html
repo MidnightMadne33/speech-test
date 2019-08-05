@@ -1,14 +1,19 @@
 <form class="form" [formGroup]="testForm" (ngSubmit)="onSubmit()">
   <div class="form-group row">
-    <label class="col-3" for="id">Entry ID</label>
+    <label class="col-3" for="access">Access</label>
     <div class="input-group col-9">
-      <div class="input-group-prepend" (click)="toggleListening('id')">
-        <div [ngClass]="{'input-group-text-listening':isListening && formControlCurr == 'id'}"
+      <div class="input-group-prepend" (click)="toggleListening('access')">
+        <div [ngClass]="{'input-group-text-listening':isListening && formControlCurr == 'access'}"
           class="input-group-text">
           <mat-icon>settings_voice</mat-icon>
         </div>
       </div>
-      <input class="form-control" id="id" formControlName="id" type="text">
+      <select class="form-control" id="access" formControlName="access">
+        <option value="private">Private</option>
+        <option value="protected">Protected</option>
+        <option value="package">Package</option>
+        <option value="public">Public</option>
+      </select>
     </div>
   </div>
   <div class="form-group row">
