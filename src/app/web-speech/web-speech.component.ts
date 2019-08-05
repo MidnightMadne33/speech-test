@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { MatSnackBar, SimpleSnackBar, MatSnackBarRef } from '@angular/material';
 
 // import { WebSpeechService, RecognitionResult } from '../web-speech.service'
 const MONTH = [
@@ -39,8 +38,22 @@ export class WebSpeechComponent implements OnInit {
     private form: FormBuilder
   ) {
     this.isListening = false;
-    if (window['webkitSpeechRecognition']) {
+    if (window['SpeechRecognition']) {
+      this.SpeechRecognition = window['SpeechRecognition'];
+      this.speech = new this.SpeechRecognition()
+      this.speech.lang = 'en-UK';
+      this.speech.interimResults = false;
+      this.speech.maxAlternatives = 1;
+    }
+    else if (window['webkitSpeechRecognition']) {
       this.SpeechRecognition = window['webkitSpeechRecognition'];
+      this.speech = new this.SpeechRecognition()
+      this.speech.lang = 'en-UK';
+      this.speech.interimResults = false;
+      this.speech.maxAlternatives = 1;
+    }
+    else if (window['msSpeechRecognition']) {
+      this.SpeechRecognition = window['msSpeechRecognition'];
       this.speech = new this.SpeechRecognition()
       this.speech.lang = 'en-UK';
       this.speech.interimResults = false;
