@@ -68,34 +68,40 @@ export class WebSpeechComponent implements OnInit {
       'plant': [null],
       'date': [null]
     })
+
+    //to use 'this' as reference to 'WebSpeechComponent' 
+    // instead of 'this.speech.onresult'
     var that = this;
     this.speech.onresult =  function (event) {
       console.log('processing...')
       that.isListening = false;
+      //to update UI
       that.ref.detectChanges();
+      //if API recognizes something has been said
       if (event.results[0][0]) {
         var val = event.results[0][0].transcript;
         let control = that.formControlCurr;
         if(control === 'date'){
           val = that.dateParser(val);
-          console.log(val);
-          that.testForm.get(control).setValue(val);
-        } else {
-          that.testForm.get(control).setValue(val);
-        }
+        }  
+        that.testForm.get(control).setValue(val);
       }
     }
   }
 
+
+  //on mic-press
   toggleListening(formControl: string): void {
     if (this.isListening) {
       console.log('aborting...')
       this.isListening = false;
+      //force triggers API to stop
       this.speech.stop();
     } else {
       console.log('listening...')
       this.formControlCurr = formControl;
       this.isListening = true;
+      //triggers API to start
       this.speech.start();
     }
   }
@@ -104,12 +110,13 @@ export class WebSpeechComponent implements OnInit {
     console.log(this.testForm.value)
   }
 
+
+  //method to convert date from spoken format to 'yyyy-mm-dd' format
   dateParser(val: string) {
     let date = val.split(' ');
     let dd, mm, yyyy;
     date.forEach(elem => {
       let temp = parseInt(elem);
-      // console.log(temp);
       if(isNaN(temp)){
         if(!MONTH.includes(elem.toLowerCase())){
           return;
@@ -118,20 +125,16 @@ export class WebSpeechComponent implements OnInit {
           if(mm < 10){
             mm = '0'+mm;
           }
-          // console.log('mm', mm);
         }
       }
       else if (temp >= 1 && temp <= 31){
         dd = temp;
-        // console.log('dd', dd);
       }
       else if (temp > 1000) {
         yyyy = temp;
-        // console.log('yyyy', yyyy);
       }
     })
     return [yyyy,mm,dd].join('-');
-    // return resp;
   }
 
 }
